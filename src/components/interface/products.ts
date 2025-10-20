@@ -10,3 +10,13 @@ export interface IProduct {
     imageUrl: string;
   };
 }
+
+export interface IFromProduct {
+  id: string;
+  name: string;
+  label: string;
+  type: string;
+  placeholder: string;
+  required?: boolean;
+  focus?: boolean;
+}

@@ -5,6 +5,7 @@ import { Products } from "./components/data"
 import Button from './components/ui/Button';
 import Modal from './components/ui/Modal';
 import { FormProducts } from './components/components/FormProducts';
+import Input from './components/ui/Input';
 function App() {
 
   //**-----------setState---------------**\\
@@ -26,15 +27,7 @@ function App() {
           <label htmlFor={field.id} className="block text-gray-700 font-bold mb-2">
             {field.label}
           </label>
-          <input
-            type={field.type}
-            id={field.id}
-            name={field.name}
-            placeholder={field.placeholder}
-            required={field.required}
-            className="rounded-lg border-4 border-gray-300 focus:border-blue-500 focus:outline-none p-3 w-full"
-            autoFocus={field.focus}
-          />
+          <Input rest={field} />
         </div>
       )
       )
