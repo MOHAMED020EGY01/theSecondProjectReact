@@ -6,11 +6,37 @@ import Button from './components/ui/Button';
 import Modal from './components/ui/Modal';
 import { FormProducts } from './components/components/FormProducts';
 import Input from './components/ui/Input';
+import type { IProduct } from './components/interface/products';
 function App() {
 
   //**-----------setState---------------**\\
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const [product, setProduct] = useState<IProduct>({
+    title: "",
+    description: "",
+    imageUrl: "",
+    price: 0,
+    id: 0,
+    colors: [],
+    category: {
+      name: "",
+      imageUrl: ""
+    }
+  })
 
+  //**-----------Handeler---------------**\\
+
+
+  const openModalForm = () => {setIsOpenModal(true)}
+  const closeModalForm = () => {setIsOpenModal(false)}
+
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setProduct({
+      ...product, 
+      [name]: value
+    })
+  }
 
   //**-----------Render---------------**\\
 
@@ -27,32 +53,27 @@ function App() {
           <label htmlFor={field.id} className="block text-gray-700 font-bold mb-2">
             {field.label}
           </label>
-          <Input rest={field} />
+          <Input rest={field} value={product[field.name]} onChange={onChangeHandler} />
         </div>
       )
       )
     )
   }
 
-  //**-----------Handeler---------------**\\
 
 
-  const openModalForm = () => {
-    setIsOpenModal(true)
-  }
-
-  const closeModalForm = () => {
-    setIsOpenModal(false)
-  }
   return (
     <>
       {/* Modal */}
       <Modal isOpen={isOpenModal} close={closeModalForm} title="Modal Title" description="Modal Description">
+        <form action="" method="POST">
+
           {renderProductCards()}
-        <div className='flex gap-3 my-2'>
-          <Button className='bg-blue-500'> Add </Button>
-          <Button className='bg-slate-400' onClick={closeModalForm}> Cancel </Button>
-        </div>
+          <div className='flex gap-3 my-2'>
+            <Button className='bg-blue-500' type='submit'> Add </Button>
+            <Button className='bg-slate-400' onClick={closeModalForm}> Cancel </Button>
+          </div>
+        </form>
       </Modal>
 
 

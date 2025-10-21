@@ -1,0 +1,1 @@
+export type  TFormProduct = "title" | "description" | "imageUrl" | "price";

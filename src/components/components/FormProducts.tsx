@@ -1,6 +1,6 @@
-import type { IFromProduct } from "../interface/products";
+import type { IFormProduct } from "../interface/products";
 
-export const FormProducts: IFromProduct[] = [
+export const FormProducts: IFormProduct[] = [
     {
         id:"title",
         name:"title",

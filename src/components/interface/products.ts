@@ -1,3 +1,5 @@
+import type { TFormProduct } from "../types/formTypes";
+
 export interface IProduct {
   id: number;
   title: string;
@@ -11,12 +13,12 @@ export interface IProduct {
   };
 }
 
-export interface IFromProduct {
+export interface IFormProduct {
   id: string;
-  name: string;
+  name: TFormProduct;
   label: string;
   type: string;
   placeholder: string;
-  required?: boolean;
-  focus?: boolean;
+  required?: boolean | undefined;
+  focus?: boolean | undefined;
 }
