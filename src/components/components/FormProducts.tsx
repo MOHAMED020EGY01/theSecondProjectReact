@@ -30,7 +30,7 @@ export const FormProducts: IFormProduct[] = [
         id:"price",
         name:"price",
         label:"Product Price",
-        type:"number",
+        type:"text",
         placeholder:"Enter product price",
         required:true
     },

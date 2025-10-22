@@ -6,7 +6,7 @@ export const Products: IProduct[] = [
     title: "Wireless Headphones",
     description: "High-quality Bluetooth headphones with noise cancellation.",
     imageUrl: "https://picsum.photos/seed/headphones/400/300",
-    price: 89.99,
+    price: "89.99",
     colors: ["#000000", "#FFFFFF", "#1E90FF"],
     category: {
       name: "Electronics",
@@ -18,7 +18,7 @@ export const Products: IProduct[] = [
     title: "Smart Watch",
     description: "Fitness tracking smartwatch with heart-rate monitor and GPS.",
     imageUrl: "https://picsum.photos/seed/watch/400/300",
-    price: 149.5,
+    price: "149.5",
     colors: ["#FF5733", "#2ECC71", "#3498DB"],
     category: {
       name: "Wearables",
@@ -30,7 +30,7 @@ export const Products: IProduct[] = [
     title: "Gaming Mouse",
     description: "Ergonomic RGB gaming mouse with customizable DPI settings.",
     imageUrl: "https://picsum.photos/seed/mouse/400/300",
-    price: 59.99,
+    price:"59.99",
     colors: ["#000000", "#FF0000", "#00FF00"],
     category: {
       name: "Accessories",
@@ -42,7 +42,7 @@ export const Products: IProduct[] = [
     title: "Leather Backpack",
     description: "Stylish leather backpack with multiple compartments.",
     imageUrl: "https://picsum.photos/seed/backpack/400/300",
-    price: 119.0,
+    price: "119.0",
     colors: ["#8B4513", "#A0522D", "#2F4F4F"],
     category: {
       name: "Fashion",
@@ -54,7 +54,7 @@ export const Products: IProduct[] = [
     title: "Running Shoes",
     description: "Lightweight running shoes with breathable mesh design.",
     imageUrl: "https://picsum.photos/seed/shoes/400/300",
-    price: 79.99,
+    price: "79.99",
     colors: ["#FFFFFF", "#000000", "#FF4500"],
     category: {
       name: "Sports",

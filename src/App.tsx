@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import './App.css'
 import ProductCard from './components/ProductCard'
 import { Products } from "./components/data"
@@ -7,36 +7,76 @@ import Modal from './components/ui/Modal';
 import { FormProducts } from './components/components/FormProducts';
 import Input from './components/ui/Input';
 import type { IProduct } from './components/interface/products';
+import { productValidation } from './validation';
+import Msg from './components/Error/Msg';
 function App() {
 
-  //**-----------setState---------------**\\
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  const [product, setProduct] = useState<IProduct>({
+  const defaultProduct = {
     title: "",
     description: "",
     imageUrl: "",
-    price: 0,
+    price: "",
     id: 0,
     colors: [],
     category: {
       name: "",
       imageUrl: ""
     }
-  })
+  }
+  //**-----------setState---------------**\\
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [product, setProduct] = useState<IProduct>(defaultProduct)
 
+  const [errors, setErrors] = useState(
+    {
+      title: "",
+      description: "",
+      imageUrl: "",
+      price: "",
+    }
+  );
   //**-----------Handeler---------------**\\
 
+  const openModalForm = () => { setIsOpenModal(true) }
 
-  const openModalForm = () => {setIsOpenModal(true)}
-  const closeModalForm = () => {setIsOpenModal(false)}
+  const closeModalForm = () => {
+    setIsOpenModal(false)
+    setProduct(defaultProduct)
+  }
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setProduct({
-      ...product, 
+      ...product,
       [name]: value
-    })
+
+    });
+    setErrors({
+      ...errors,
+      [name]: ""
+    });
   }
+
+
+  const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    console.log(productValidation(product));
+    const error = productValidation(product);
+
+    const hasErrorMsg = Object.values(error).some(err => err === "") && Object.values(error).every(err => err === "");
+
+    console.log(hasErrorMsg);
+    if (!hasErrorMsg) {
+      console.log("Form has errors. Please fix them before submitting.");
+      setErrors(error);
+      return;
+    }
+    console.log("Send in Api");
+
+    console.log("Submitted Product:", product);
+  }
+
 
   //**-----------Render---------------**\\
 
@@ -53,7 +93,8 @@ function App() {
           <label htmlFor={field.id} className="block text-gray-700 font-bold mb-2">
             {field.label}
           </label>
-          <Input rest={field} value={product[field.name]} onChange={onChangeHandler} />
+          <Input id={field.id} name={field.name} type={field.type} value={product[field.name]} onChange={onChangeHandler} />
+          <Msg msg={errors[field.name]} />
         </div>
       )
       )
@@ -62,11 +103,12 @@ function App() {
 
 
 
+
   return (
     <>
       {/* Modal */}
       <Modal isOpen={isOpenModal} close={closeModalForm} title="Modal Title" description="Modal Description">
-        <form action="" method="POST">
+        <form action="#" method="POST" onSubmit={submitHandler}>
 
           {renderProductCards()}
           <div className='flex gap-3 my-2'>
