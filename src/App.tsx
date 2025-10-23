@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import './App.css'
 import ProductCard from './components/ProductCard'
-import { Products } from "./components/data"
+import { colors, Products } from "./components/data"
 import Button from './components/ui/Button';
 import Modal from './components/ui/Modal';
 import { FormProducts } from './components/components/FormProducts';
@@ -9,6 +9,7 @@ import Input from './components/ui/Input';
 import type { IProduct } from './components/interface/products';
 import { productValidation } from './validation';
 import Msg from './components/Error/Msg';
+import CircleColor from './components/ui/CircleColor';
 function App() {
 
   const defaultProduct = {
@@ -26,7 +27,7 @@ function App() {
   //**-----------setState---------------**\\
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [product, setProduct] = useState<IProduct>(defaultProduct)
-
+  const [teamColor, setTeamColor] = useState<string[]>([]);
   const [errors, setErrors] = useState(
     {
       title: "",
@@ -34,7 +35,8 @@ function App() {
       imageUrl: "",
       price: "",
     }
-  );
+  );  
+  const [ProductAll, setProducts] = useState<IProduct[]>(Products);
   //**-----------Handeler---------------**\\
 
   const openModalForm = () => { setIsOpenModal(true) }
@@ -61,31 +63,43 @@ function App() {
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    console.log(productValidation(product));
     const error = productValidation(product);
 
     const hasErrorMsg = Object.values(error).some(err => err === "") && Object.values(error).every(err => err === "");
 
-    console.log(hasErrorMsg);
     if (!hasErrorMsg) {
-      console.log("Form has errors. Please fix them before submitting.");
       setErrors(error);
       return;
     }
-    console.log("Send in Api");
-
-    console.log("Submitted Product:", product);
+    setProducts(CF => [...CF, { ...product, id: CF.length + 1,colors:teamColor }]);
+    productCards();
+    console.log("close Modal Form");
+    closeModalForm();
   }
 
+
+
+  
 
   //**-----------Render---------------**\\
 
   //Function to render product cards\\
+  /**
+   * 
+   * @returns 
+   */
   const productCards = () => {
-    return Products.map(product => (
-      <ProductCard key={product.id} product={product} />
+    console.log("Product Cards:");
+    console.log(ProductAll);
+    return ProductAll.map(ProductAll => (
+      <ProductCard key={ProductAll.id} product={ProductAll}  />
     ));
   };
+
+  /**
+   * 
+   * @returns 
+   */
   const renderProductCards = () => {
     return (
       FormProducts.map((field) => (
@@ -101,9 +115,39 @@ function App() {
     )
   }
 
+  /**
+   * 
+   * @returns 
+   */
+const renderProductColors = () => {
+  return colors.map(color => (
+    <div className='inline-flex mx-1 flex-wrap' key={color}>
+      <CircleColor colorCircle={color} onClick={() => {
+        if (teamColor.includes(color)) {
+          setTeamColor(teamColor.filter(c => c !== color));
+        } else {
+          setTeamColor([...teamColor, color]);
+        }
+      }} />
+    </div>
+  ));
+}
 
+/**
+ * 
+ * @returns 
+ */
+const renderColorsSelected = () => {
+  return teamColor.map(color => (
+    <span title={`click to remove ${color}`} key={color} className='inline-block text-white p-1 rounded-md m-1 cursor-pointer' style={{ backgroundColor: color }} onClick={() => {
+        setTeamColor(teamColor.filter(c => c !== color));
+      }} >{color}</span>
+  ));
+}
 
-
+/**
+ * 
+ */
   return (
     <>
       {/* Modal */}
@@ -111,6 +155,9 @@ function App() {
         <form action="#" method="POST" onSubmit={submitHandler}>
 
           {renderProductCards()}
+          {renderProductColors()}
+          <h3 className='mt-4 mb-2 font-bold'>Selected Colors:</h3>
+          {renderColorsSelected()}
           <div className='flex gap-3 my-2'>
             <Button className='bg-blue-500' type='submit'> Add </Button>
             <Button className='bg-slate-400' onClick={closeModalForm}> Cancel </Button>

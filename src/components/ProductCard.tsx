@@ -8,10 +8,20 @@ interface IProductCard {
         description: string;
         price: string;
         imageUrl: string;
+        colors: string[];
     };
 }
 const ProductCard = ({ product }: IProductCard) => {
-    const { title, description, price, imageUrl } = product;
+    const { title, description, price, imageUrl, colors } = product;
+
+    // Render
+    const renderColor = () =>{
+        return (
+            colors.map((color, index) => (
+                <span title={`Color ${color}`} key={index} className="w-5 h-5 rounded-full inline-block hover:scale-150 transition-all" style={{ backgroundColor: color }}></span>
+            ))
+        );
+    }
     return (
         <div className="p-5">
             <Img src={imageUrl} alt={`Product Image ${title}`} className="w-full h-auto rounded-md"  />
@@ -19,9 +29,7 @@ const ProductCard = ({ product }: IProductCard) => {
             <p>{textSlicer(description,40)}</p>
 
             <div className="flex items-center space-x-2 my-2">
-                <span className="w-5 h-5 bg-red-700 rounded-full inline-block"></span>
-                <span className="w-5 h-5 bg-red-700 rounded-full inline-block"></span>
-                <span className="w-5 h-5 bg-blue-700 rounded-full inline-block"></span>
+                {renderColor()}
             </div>
             <div className="flex items-center justify-between mb-2">
                 <span>${price}</span>
